@@ -7,7 +7,7 @@ class OnScreenKeyboard(tk.Tk):
         self.value = None
 
         self.title("On-Screen Keyboard")
-        self.geometry("500x500")
+        self.geometry("700x300")
 
         self.tf = tk.Entry(self)
         self.tf.pack()
