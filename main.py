@@ -34,8 +34,8 @@ class OnScreenNumpad(tk.Tk):
                 button = self.create_keyboard_button(key)
                 button.grid(row=row_idx, column=col_idx, padx=2, pady=2)
 
-        self.made_by_label = tk.Label(self, text="Made by ElliNet13")
-        self.made_by_label.pack()
+        #self.made_by_label = tk.Label(self, text="Made by ElliNet13")
+        #self.made_by_label.pack()
 
     def clear_text(self):
         self.tf.delete(0, tk.END)
@@ -98,8 +98,8 @@ class OnScreenKeyboard(tk.Tk):
                 button = self.create_keyboard_button(key)
                 button.grid(row=row_idx, column=col_idx, padx=2, pady=2)
 
-        self.made_by_label = tk.Label(self, text="Made by ElliNet13")
-        self.made_by_label.pack()
+        #self.made_by_label = tk.Label(self, text="Made by ElliNet13")
+        #self.made_by_label.pack()
 
     def clear_text(self):
         self.tf.delete(0, tk.END)
