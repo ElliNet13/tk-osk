@@ -36,6 +36,37 @@ class OnScreenNumpad(tk.Tk):
 
         #self.made_by_label = tk.Label(self, text="Made by ElliNet13")
         #self.made_by_label.pack()
+                
+class OnScreenCustom(tk.Tk):
+    def __init__(self, name, key_layout, size):
+        super().__init__()
+
+        self.value = None
+
+        self.title("On-Screen " + name)
+        self.geometry(size)
+
+        self.tf = tk.Entry(self)
+        self.tf.pack()
+        self.tf.config(width=40)
+
+        self.label = tk.Label(self, text="")
+        self.label.pack()
+
+        self.button_clear = tk.Button(self, text="Clear", command=self.clear_text)
+        self.button_clear.pack()
+
+        # On-screen keyboard
+        self.keyboard = tk.Frame(self)
+        self.keyboard.pack()
+
+        for row_idx, row in enumerate(key_layout):
+            for col_idx, key in enumerate(row):
+                button = self.create_keyboard_button(key)
+                button.grid(row=row_idx, column=col_idx, padx=2, pady=2)
+
+        #self.made_by_label = tk.Label(self, text="Made by ElliNet13")
+        #self.made_by_label.pack()
 
     def clear_text(self):
         self.tf.delete(0, tk.END)
@@ -131,6 +162,11 @@ def gettinput():
     app.mainloop()
     return app.value
 
+def getcinput(name, key_layout, size):
+    app = OnScreenCustom()
+    app.mainloop()
+    return app.value
+
 def getninput():
     app = OnScreenNumpad()
     app.mainloop()
@@ -138,9 +174,3 @@ def getninput():
       return 0 if app.value is None else app.value
     except ValueError:
       return 0
-
-if __name__ == "__main__":
-    user_input = gettinput()
-    print("Entered text:", user_input)
-    user_input = getninput()
-    print("Entered number:", user_input)
