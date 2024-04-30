@@ -163,7 +163,7 @@ def gettinput():
     return app.value
 
 def getcinput(name, key_layout, size):
-    app = OnScreenCustom()
+    app = OnScreenCustom(name, key_layout, size)
     app.mainloop()
     return app.value
 
