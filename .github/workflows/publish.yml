@@ -1,31 +1,47 @@
-name: Publish to PyPI
+name: Python Library Deployment
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install twine
+    - name: Install dependencies
+      run: pip install wheel twine
 
-      - name: Build and publish
-        env:
-          PYPI_USERNAME: __token__
-          PYPI_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          python setup.py sdist bdist_wheel
-          twine upload --repository pypi dist/*
+    - name: Build distribution package
+      run: |
+        python setup.py sdist
+        python setup.py bdist_wheel
+
+    - name: Commit version changes
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add version.txt  # replace with your version file
+        git commit -m "Bump version to ${{ steps.build.outputs.new_version }}"
+
+    - name: Check commit message
+      run: |
+        if git log -1 --pretty=%B | grep -q "Bump version to"; then
+          echo "Commit made by workflow. Skipping further steps."
+          exit 0
+        fi
+
+    - name: Publish to PyPI
+      run: twine upload dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
