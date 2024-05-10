@@ -41,6 +41,6 @@ setup(
         
     ],
     install_requires=[
-        'wheel'
+        
     ],
 )
